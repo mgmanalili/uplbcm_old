@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UPLB Campus Map </title>
+    <link rel="icon" href="static/img/uplb1.png"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">  
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+        integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+        crossorigin=""/>
+    <link rel="stylesheet" href="static/css/leaflet-sidebar.css" />
+    <link rel="stylesheet" href="static/css/header.css" />
+    <link rel="stylesheet" href="static/css/leaflet-search.css" />
+    <link rel="stylesheet" href="static/css/query.css" />
+    <link rel="stylesheet" href="static/lib/leaflet/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.4/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link href='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css' rel='stylesheet' />
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.css'>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 91.2%; /* ugly way of adjusting map height */
+            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+
+        .lorem {
+            font-style: italic;
+            text-align: justify;
+            color: #AAA;
+        }
+    </style>
+</head>
+
+<body>
+
+	<div class="topnav" id="myTopnav">	
+		<img src="static/img/uplb1.png" height="50px" width="55px" style="float: left; margin-left:3px;margin-top:3px;">
+		<!--img src="img/upsilon1.png" height="45px" width="45px"  style="float: left; margin-left:20px;margin-top:5px;"-->
+		<!--img src="img/hilaga.png" height="38px" width="76px"  style="float: left; margin-left:20px;margin-top:7px;"-->
+		<a href="#home" >UPLB Campus Map</a> 
+		
+	</div> <!--img src="img/usp.png" height="49" width="55" style="float: left;"-->
+
+    <div id="map"></div>
+    <div class="leaflet-control-container">
+        <div class="leaflet-top leaflet-right">
+          <div id="overpass-api-controls" class="leaflet-bar leaflet-control">
+            <input id="query-textfield" size="40" placeholder="e.g. amenity = cafe, restaurant, college, school" >
+            <input id="query-button" type="button" value="Search Non-UPLB Features">
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    <div id="sidebar" class="leaflet-sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="leaflet-sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#bars" role="tab"><i class="fa fa-info"></i></a></li>
+				<!-- line separator
+				<hr size="2"color="#700000" width="50">
+				-->		
+				<!--force to refresh map when undo is clicked-->
+<!---------------------------------------------- IMPORTANT ------------------------------------------------------------->
+<!------------------------UPDATE NEXT LINE WHEN RENAMING THIS DOCUMENT------------------------>
+<!---------------------------------------------- IMPORTANT ------------------------------------------------------------->
+				<li><a href="UPLB Campus Map Beta.html" role="tab">	 <i class="fa fa-home"></i></a></li>
+				<li><a href="UPLB_SV.html" role="tab"><i class="fa fa-male"	></i></a></li>
+                <li><a href="#vgi" role="tab" src="img/users-solid.svg"></a></li>
+				<!--li><a href="#search" role="tab"><i class="fa fa-search"></i></a></li>
+                <li><a href="#routes" role="tab"><i class="fa fa-car" onclick="layer_on(road)"></i></a></li>
+                <li><a href="#building" role="tab"><i class="fa fa-building" onclick="layer_on(bldg)"></i></a></li-->
+
+                <!--to fix later-->
+				<li class="foo"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+				<li><a href="https://twitter.com/UPLBOfficial?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" role="tab"><i class="fa fa-twitter"></i></a></li>
+            </ul>
+        </div>
+
+    </div>
+    <script> 
+	    function toggle_visibility(id) {
+		   var e = document.getElementById(id);
+		   if(e.style.display == 'block')
+		      e.style.display = 'none';
+		   else
+		      e.style.display = 'block';
+		}
+    </script>
+
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+        integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+        crossorigin=""></script>
+    <script src="static/js/leaflet-color-markers.js"></script> 
+    <script src="static/data/lmark.geojson"></script>
+    <script src="static/data/route.geojson"></script>
+    <script src="static/data/struc.geojson"></script>
+    <script src="static/lib/leaflet/leaflet.js"></script>
+    <script src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet-src.js'></script>
+    <script src="lib/sbs/leaflet-side-by-side.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js'></script>
+    <script src='https://cdn.osmbuildings.org/OSMBuildings-Leaflet.js'></script>
+    <script src='https://cdn.osmbuildings.org/Leaflet.draw/0.2.0/leaflet.draw.js'></script>
+    <script src="static/js/leaflet-search.js"></script>
+
+    <script src="static/js/searchup.js"></script>
+    <script src="static/js/map_all.js"></script>
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRs38WMhaxmKOArfQLTuNGsk0JsSh65SU&callback=initMap">
+    </script>
+    
+</body>
+</html>
